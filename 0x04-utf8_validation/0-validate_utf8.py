@@ -1,7 +1,5 @@
 #!/usr/bin/python3
-"""validate a given data if its a utf-8 encoded 
-"""
-
+"""UTF-8 Validation"""
 
 
 def validUTF8(data):
