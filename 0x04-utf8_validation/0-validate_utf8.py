@@ -6,6 +6,7 @@
 def validUTF8(data):
     """validate a given data if its a utf-8 encoded
     """
+
     num_bytes = 0
     for byte in data:
         if num_bytes == 0:
