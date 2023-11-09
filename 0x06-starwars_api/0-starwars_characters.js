@@ -1,28 +1,43 @@
 #!/usr/bin/node
-const process = require("process");
 const request = require("request");
-const BaseUrl = "https://swapi-api.alx-tools.com/api/";
+const movieId = process.argv[2];
+const url = `https://swapi-api.alx-tools.com/api/films/${movieId}`;
 
-if (process.argv.length === 3) {
-  getMovieCharachter(process.argv[2]);
-} else {
-  console.error("Incorrect arguments passed!");
-}
-
-function getMovieCharachter(id) {
-  request(`${BaseUrl}films/${id}`, function (error, response, body) {
-    if (!error && response.statusCode === 200) {
-      const res = JSON.parse(body);
-      const characters = res.characters;
-
-      for (const i of characters) {
-        request(i, function (error, response, body) {
-          !error && console.log(JSON.parse(body).name);
-          error && console.log(error);
-        });
+const getCharsUrl = function (options) {
+  return new Promise((resolve, reject) => {
+    request.get(options, (error, response, body) => {
+      if (response.statusCode === 200) {
+        const data = JSON.parse(body);
+        const characters = data.characters;
+        resolve(characters);
+      } else if (error) {
+        reject(error);
       }
-    } else {
-      console.log(error);
-    }
+    });
+  });
+};
+
+async function getCharacterName(characterUrl) {
+  return new Promise((resolve, reject) => {
+    request.get(characterUrl, (error, response, body) => {
+      if (response.statusCode === 200) {
+        const character = JSON.parse(body);
+        const characterName = character.name;
+        resolve(characterName);
+      } else if (error) {
+        reject(error);
+      }
+    });
   });
 }
+
+async function getCharactersName(options) {
+  const characters = await getCharsUrl(options);
+  for (let index = 0; index < characters.length; index++) {
+    const characterUrl = characters[index];
+    const characterName = await getCharacterName(characterUrl);
+    console.log(characterName);
+  }
+}
+
+getCharactersName(url);
