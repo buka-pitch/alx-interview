@@ -1,6 +1,5 @@
 #!/usr/bin/node
 const request = require('request');
-// console.log(process.argv);
 const BaseUrl = 'https://swapi-api.alx-tools.com/api/';
 
 if (process.argv.length === 3) {
@@ -9,7 +8,7 @@ if (process.argv.length === 3) {
   console.error('Incorrect arguments passed!');
 }
 
-async function getMovieCharachter (id) {
+function getMovieCharachter (id) {
   request(
     `${BaseUrl}films/${id}`, function (error, response, body) {
       if (!error && response.statusCode === 200) {
