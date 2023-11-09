@@ -10,18 +10,19 @@ if (process.argv.length === 3) {
 }
 
 async function getMovieCharachter (id) {
-  const movies = request(
+  request(
     `${BaseUrl}films/${id}`, function (error, response, body) {
-      try {
+      if (!error && response.statusCode === 200) {
         const res = JSON.parse(body);
         const charachters = res.characters;
         for (const i of charachters) {
           request(i, function (error, response, body) {
-            console.log(JSON.parse(body).name);
+            !error && console.log(JSON.parse(body).name);
+            error && console.log(error);
           });
         }
-      } catch (error) {
-        console.error(error);
+      } else {
+        console.log(error);
       }
     }
   );
