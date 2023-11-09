@@ -1,5 +1,5 @@
 #!/usr/bin/node
-const request = require("request");
+const request = require('request');
 const movieId = process.argv[2];
 const url = `https://swapi-api.alx-tools.com/api/films/${movieId}`;
 
@@ -17,7 +17,7 @@ const getCharsUrl = function (options) {
   });
 };
 
-async function getCharacterName(characterUrl) {
+async function getCharacterName (characterUrl) {
   return new Promise((resolve, reject) => {
     request.get(characterUrl, (error, response, body) => {
       if (response.statusCode === 200) {
@@ -31,7 +31,7 @@ async function getCharacterName(characterUrl) {
   });
 }
 
-async function getCharactersName(options) {
+async function getCharactersName (options) {
   const characters = await getCharsUrl(options);
   for (let index = 0; index < characters.length; index++) {
     const characterUrl = characters[index];
