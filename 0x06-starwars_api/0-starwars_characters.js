@@ -9,21 +9,19 @@ if (process.argv.length === 3) {
 }
 
 function getMovieCharachter (id) {
-  request(
-    `${BaseUrl}films/${id}`, function (error, response, body) {
-      if (!error && response.statusCode === 200) {
-        const res = JSON.parse(body);
-        const characters = res.characters;
+  request(`${BaseUrl}films/${id}`, function (error, response, body) {
+    if (!error && response.statusCode === 200) {
+      const res = JSON.parse(body);
+      const characters = res.characters;
 
-        for (const i of characters) {
-          request(i, function (error, response, body) {
-            !error && console.log(JSON.parse(body).name);
-            error && console.log(error);
-          });
-        }
-      } else {
-        console.log(error);
+      for (const i of characters) {
+        request(i, function (error, response, body) {
+          !error && console.log(JSON.parse(body).name);
+          error && console.log(error);
+        });
       }
+    } else {
+      console.log(error);
     }
-  );
+  });
 }
